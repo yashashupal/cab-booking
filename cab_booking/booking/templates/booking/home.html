@@ -1,0 +1,6 @@
+<h1>Available Cabs</h1>
+<ul>
+  {% for cab in cabs %}
+    <li>{{ cab.driver_name }} ({{ cab.location }}) - <a href="{% url 'book_ride' cab.id %}">Book Now</a></li>
+  {% endfor %}
+</ul>

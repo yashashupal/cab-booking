@@ -1,0 +1,70 @@
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Get Location</title>
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY"></script>
+</head>
+<body>
+
+<h1>Book Ride</h1>
+<form method="post">
+  {% csrf_token %}
+  
+  <label for="customer_name">Name:</label>
+  <input type="text" id="customer_name" name="customer_name" required><br>
+  
+  <label for="pickup_location">Pickup Location:</label>
+  <input type="text" id="pickup_location" name="pickup_location" readonly required><br>
+  
+  <label for="dropoff_location">Dropoff Location:</label>
+  <input type="text" id="dropoff_location" name="dropoff_location" required><br>
+  
+  <button type="submit">Book Ride</button>
+</form>
+
+<h3>Get Current Location</h3>
+<div id="map" style="width:100%;height:400px;"></div>
+
+<script>
+function initMap() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+            var userLocation = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+            };
+
+            var map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 15,
+                center: userLocation
+            });
+
+            var marker = new google.maps.Marker({
+                position: userLocation,
+                map: map
+            });
+
+            // Set user's coordinates into the input field
+            document.getElementById('pickup_location').value = `${userLocation.lat}, ${userLocation.lng}`;
+        });
+    } else {
+        alert("Geolocation is not supported by this browser.");
+    }
+}
+
+window.onload = initMap;
+</script>
+
+</body>
+</html>
+
+
+
+
